@@ -1,1 +1,9 @@
 <h1 class="bg-danger text-white text-center">Sportify</h1>
+<div class="d-flex justify-content-around">
+  <a class="nav-link" [routerLink]="['/home']">Home</a>
+  <a class="nav-link" [routerLink]="['/about']">About</a>
+  <a class="nav-link" [routerLink]="['/contact']">Contact</a>
+</div>
+
+<router-outlet>
+</router-outlet>
