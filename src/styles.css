@@ -1,2 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/dist/css/bootstrap.min.css';
+
+ul {
+  list-style-type: none;
+}
+
+button, input {
+  outline: none;
+} 
+
+body {
+  font-family: 'Roboto', sans-serif;
+  width: 100vw;
+  height: 100vh;
+  background-color: #F5F6FA
+}
+
