@@ -1,0 +1,5 @@
+.card-img-class {
+  width: 12rem;
+  height: auto;
+  object-fit: contain;
+}

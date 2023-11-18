@@ -5,18 +5,26 @@ import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SearchComponent } from './search/search.component';
 import { HttpClientModule } from '@angular/common/http';
+import { TrackComponent } from './track/track.component';
+
 const routes: Routes = [
   {path: "", redirectTo: "search", pathMatch: "full"},
   {
     path: 'search',
     component: SearchComponent
   },
+  {
+    path: 'tracks/:id',
+    component: TrackComponent
+  },
   
 ];
+
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponent,
+    TrackComponent,
   ],
   imports: [
     BrowserModule,
