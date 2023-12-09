@@ -43,7 +43,7 @@ export class TrackComponent implements OnInit {
    if (this.id) {
      this.spotify
        .getTrack(this.id)
-       // create a subscribe method that renderss the tracts
+       // create a subscribe method that renders the tracks
        .subscribe((data: any) => {
           this.track = data
         }

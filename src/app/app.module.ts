@@ -3,15 +3,25 @@ import { FormsModule } from "@angular/forms"
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
-import { SearchComponent } from './search/search.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SearchComponent } from './search/search.component';
 import { TrackComponent } from './track/track.component';
+import { AlbumsComponent } from './albums/albums.component';
+import { ArtistsComponent } from './artists/artists.component';
 
 const routes: Routes = [
   {path: "", redirectTo: "search", pathMatch: "full"},
   {
     path: 'search',
     component: SearchComponent
+  },
+  {
+    path: 'albums/:id',
+    component: AlbumsComponent
+  },
+  {
+    path: 'artists/:id',
+    component: ArtistsComponent
   },
   {
     path: 'tracks/:id',
@@ -25,6 +35,8 @@ const routes: Routes = [
     AppComponent,
     SearchComponent,
     TrackComponent,
+    AlbumsComponent,
+    ArtistsComponent,
   ],
   imports: [
     BrowserModule,

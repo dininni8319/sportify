@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { switchMap } from 'rxjs/operators'
+import { 
+  HttpClient, 
+  HttpHeaders, 
+  HttpParams 
+} from "@angular/common/http";
+import { switchMap, catchError, tap } from 'rxjs/operators'
 import { environment } from '../environments/environment';
 import { SpotifyAccessService } from './spotify-access.service';
 import { Observable } from 'rxjs';
@@ -15,45 +19,51 @@ export class SpotifyService {
     public spotifyAccess: SpotifyAccessService
   ) {
     // Call the getAuthToken method when the service is instantiated
-    this.getAuthToken();
+    this.handleAccessToken();
   }
   
-  private getAuthToken() {
+  private handleAccessToken() {
     // Use switchMap to switch to the new observable returned by getAuthToken
-    this.spotifyAccess.getAuthToken().pipe(
-      switchMap((token) => {
-        // Set the access token and return an observable
-        this.spotifyAccess.setAccessToken(token);
-        return Observable.create(); // This can be replaced with an observable if needed
-      })
-    ).subscribe(
-      () => console.log('Access token retrieved successfully.'),
-      (error) => console.error('Error retrieving access token:', error)
+    return this.spotifyAccess.getAuthToken().pipe(
+      catchError((error) => {
+        console.error('Error retrieving access token:', error);
+        throw error; // Rethrow the error to propagate it to subscribers
+      }),
+      tap((token) => console.log('Access token retrieved successfully:', token))
     );
   }
 
-  private getAccessToken() {
-    return this.spotifyAccess.getAuthToken();
-  }
-
-  private query(URL: string, params?: Array<string>) {
-    let queryURL = `${environment.apiUrl}${URL}`;
-    if (params) {
-      queryURL = `${queryURL}?${params.join("&")}`;
-    }
-
-    return this.getAccessToken().pipe(
+  private queryWithToken(URL: string, params?: Array<string>) {
+    return this.handleAccessToken().pipe(
       switchMap((token) => {
-        let headers: HttpHeaders = new HttpHeaders({
+        const headers: HttpHeaders = new HttpHeaders({
           Authorization: `Bearer ${token}`,
         });
-        return this.http.get(queryURL, { headers });
+
+        const queryParams:{ [param: string]: string | number | boolean | readonly (string | number | boolean)[] } = {};
+        if (params) {
+          params.forEach((param) => {
+            const [key, value] = param.split('=');
+            queryParams[key] = value;
+          });
+        }
+
+        const options = {
+          headers,
+          params: new HttpParams({ fromObject: queryParams }),
+        };
+
+        return this.http.get(`${environment.apiUrl}${URL}`, options);
+      }),
+      catchError((error) => {
+        console.error('Error in API query:', error);
+        throw error; // Rethrow the error to propagate it to subscribers
       })
     );
   }
   
   search(query: string, type: string) {
-    return this.query('/search', [
+    return this.queryWithToken('/search', [
       `q=${query}`,
       `type=${type}`
     ]);
@@ -64,6 +74,14 @@ export class SpotifyService {
   }
 
   getTrack(id: string) {
-    return this.query(`/tracks/${id}`);
+    return this.queryWithToken(`/tracks/${id}`);
+  }
+
+  getArtist(id: string) {
+    return this.queryWithToken(`/artists/${id}`);
+  }
+
+  getAlbum(id: string) {
+    return this.queryWithToken(`/albums/${id}`);
   }
 }

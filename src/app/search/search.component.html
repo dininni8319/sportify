@@ -21,16 +21,24 @@
             <img class="card-img-class" src="{{ t.album.images[0].url }}" alt="">
             <div class="caption">
               <h6 class="pt-2">
-                <a [routerLink]="['/artists', t.artists[0].id]"></a>
-                {{ t.artists[0].name }}
+                <a [routerLink]="['/artists', t.artists[0].id]">
+                  {{ t.artists[0].name }}
+                </a>
               </h6>
               <p>
-                <a [routerLink]="['/tracks', t.id]" class="btn btn-secondary" role="button">{{t.name}}</a>
+                <a 
+                  [routerLink]="['/tracks', t.id]" 
+                  class="btn btn-secondary" 
+                  role="button">
+                  {{t.name}}
+                </a>
               </p>
             </div>
             <div class="attribution">
               <h6>
-                <a [routerLink]="['/albums', t.album.id]">
+                <a 
+                  [routerLink]="['/albums', t.album.id]"
+                >
                   {{ t.album.name }}
                 </a>
               </h6>

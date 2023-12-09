@@ -16,7 +16,6 @@ import { SpotifyService } from '../spotify.service';
 })
 
 
-
 export class SearchComponent implements OnInit {
   query: string = ''
   results: {
@@ -41,7 +40,8 @@ export class SearchComponent implements OnInit {
     private route: ActivatedRoute,
     private spotify: SpotifyService
   ) {
-    this.route
+    this
+      .route
       .queryParams
       .subscribe(params => { 
         this.query = params['query'] || ''
@@ -49,7 +49,6 @@ export class SearchComponent implements OnInit {
     }
 
   search(): void {
-    console.log("this.query", this.query);
     if (!this.query) {
       return
     }
@@ -70,7 +69,10 @@ export class SearchComponent implements OnInit {
 
   submit(query: string) {
     this.router
-      .navigate(['search'], { queryParams: { query: query } })
+      .navigate(
+        ['search'], 
+        { queryParams: { query: query } }
+      )
       .then(_ => this.search())
   }
 
