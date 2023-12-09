@@ -40,19 +40,21 @@ export class SpotifyService {
           Authorization: `Bearer ${token}`,
         });
 
-        const queryParams:{ [param: string]: string | number | boolean | readonly (string | number | boolean)[] } = {};
+        let queryParams = new HttpParams();
         if (params) {
           params.forEach((param) => {
-            const [key, value] = param.split('=');
-            queryParams[key] = value;
+            queryParams = queryParams.append(
+              param.split('=')[0],
+              param.split('=')[1]
+              );
           });
         }
 
         const options = {
           headers,
-          params: new HttpParams({ fromObject: queryParams }),
+          params: queryParams,
         };
-
+        
         return this.http.get(`${environment.apiUrl}${URL}`, options);
       }),
       catchError((error) => {
@@ -81,7 +83,7 @@ export class SpotifyService {
     return this.queryWithToken(`/artists/${id}`);
   }
 
-  getAlbum(id: string) {
+  getAlbums(id: string) {
     return this.queryWithToken(`/albums/${id}`);
   }
 }

@@ -1,1 +1,44 @@
-<p>albums works!</p>
+
+<div *ngIf="album">
+  <h3>{{album.name}}</h3>
+
+  <div>
+    <img src="{{album.images[0].url}}" alt="{{album.name}}">
+  </div>
+
+  <div>
+    <h4>Artists</h4>
+    <ul>
+      <li *ngFor="let artist of album.artists">
+        <a [routerLink]="['/artists', artist.id]">{{artist.name}}</a>
+      </li>
+    </ul>
+  </div>
+
+  <div>
+    <h4>Genres</h4>
+    <ul>
+      <li *ngFor="let genre of album.genres">{{genre}}</li>
+    </ul>
+  </div>
+
+  <div>
+    <h4>Popularity</h4>
+    <p>{{album.popularity}}</p>
+  </div>
+
+  <div>
+    <h4>Release Date</h4>
+    <p>{{album.release_date}}</p>
+  </div>
+
+  <div>
+    <h4>Tracks</h4>
+    <ul>
+      <li *ngFor="let track of album.tracks.items">
+        <a [routerLink]="['/tracks', track.id]">{{track.name}}</a>
+      </li>
+    </ul>
+  </div>
+
+</div>

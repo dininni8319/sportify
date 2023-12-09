@@ -1,1 +1,32 @@
-<p>artists works!</p>
+
+<h3 *ngIf="artist">{{artist.name}}</h3>
+
+<div *ngIf="artist">
+ <!-- <img src="{{artist.images[0].url}}" alt="{{artist.name}}"> -->
+  <img src="{{artist.images[1].url}}" alt="{{artist.name}}"> 
+  <!-- <img src="{{artist.images[2].url}}" alt="{{artist.name}}"> -->
+</div>
+
+<div *ngIf="artist">
+  <h4>Genres</h4>
+  <ul>
+    <li *ngFor="let genre of artist.genres">{{genre}}</li>
+  </ul>
+</div>
+
+<div *ngIf="artist">
+  <h4>Popularity</h4>
+  <p>{{artist.popularity}}</p>
+
+  <h4>Followers</h4>
+  <p>{{artist.followers.total}}</p>
+</div>
+
+<div *ngIf="artist">
+  <h4>Related Artists</h4>
+  <!-- <ul>
+    <li *ngFor="let relatedArtist of relatedArtists">
+      <a [routerLink]="['/artists', relatedArtist.id]">{{relatedArtist.name}}</a>
+    </li>
+  </ul> -->
+</div>
